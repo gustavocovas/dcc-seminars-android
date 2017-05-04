@@ -10,6 +10,10 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.io.IOException;
+
+import br.usp.ime.dcc.seminariosdcc.utils.SeminarsStore;
+
 public class StudentSeminarActivity extends AppCompatActivity {
 
     @Override
@@ -58,7 +62,16 @@ public class StudentSeminarActivity extends AppCompatActivity {
     }
 
     private boolean userIsLoggedIn() {
-//        TODO: Read user from storage
-        return false;
+        boolean isLoggedIn;
+
+        SeminarsStore seminarsStore = new SeminarsStore(getApplicationContext());
+        try {
+            isLoggedIn = (!seminarsStore.getNusp().isEmpty() &&
+                          !seminarsStore.getPass().isEmpty());
+        } catch (IOException e) {
+            isLoggedIn = false;
+        }
+
+        return isLoggedIn;
     }
 }
