@@ -23,7 +23,8 @@
             android:name=".LoginActivity"
             android:label="@string/title_activity_login"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".StudentSignInSignUpActivity"></activity>
+        <activity android:name=".StudentSignInSignUpActivity" />
+        <activity android:name=".StudentSignInActivity"></activity>
     </application>
 
 </manifest>

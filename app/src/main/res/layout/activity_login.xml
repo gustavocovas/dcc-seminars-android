@@ -31,12 +31,12 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/login_student_button"
+            android:id="@+id/student_button"
             android:text="Aluno"/>
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/login_professor_button"
+            android:id="@+id/professor_button"
             android:text="Professor"/>
     </LinearLayout>
 </LinearLayout>
