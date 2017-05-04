@@ -43,8 +43,6 @@ public class StudentSignInActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_sign_in);
 
-        VolleyLog.DEBUG = true;
-
         queue = Volley.newRequestQueue(this);
 
         nuspInput = (TextInputEditText) findViewById(R.id.text_input_nusp_student_sign_in);
@@ -101,62 +99,61 @@ public class StudentSignInActivity extends AppCompatActivity {
         String signInURL = SeminarsWebService.URL + "/login/student";
 
         StringRequest signInRequest = new StringRequest(
-                Request.Method.POST,
-                signInURL,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        boolean wasSuccessful;
+            Request.Method.POST,
+            signInURL,
+            new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    boolean wasSuccessful;
 
+                    try {
+                        JSONObject responseJSONObject = new JSONObject(response);
+                        wasSuccessful = responseJSONObject.getBoolean("success");
+                    } catch (JSONException e) {
+                        wasSuccessful = false;
+                    }
+
+                    if (wasSuccessful) {
+                        // Record user data and redirect to main activity;
+
+                        SeminarsStore seminarsStore = new SeminarsStore(getApplicationContext());
                         try {
-                            JSONObject responseJSONObject = new JSONObject(response);
-                            wasSuccessful = responseJSONObject.getBoolean("success");
-                        } catch (JSONException e) {
-                            wasSuccessful = false;
+                            seminarsStore.setNusp(nuspInput.getText().toString());
+                            seminarsStore.setPass(passwordInput.getText().toString());
+
+                            Intent studentSeminars = new Intent(StudentSignInActivity.this, StudentSeminarActivity.class);
+                            studentSeminars.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(studentSeminars);
+                            finish();
+                        } catch (java.io.IOException e) {
+                            e.printStackTrace();
                         }
-
-                        if (wasSuccessful) {
-                            // Record user data and redirect to main activity;
-
-                            SeminarsStore seminarsStore = new SeminarsStore(getApplicationContext());
-                            try {
-                                seminarsStore.setNusp(nuspInput.getText().toString());
-                                seminarsStore.setPass(passwordInput.getText().toString());
-
-                                Intent studentSeminars = new Intent(StudentSignInActivity.this, StudentSeminarActivity.class);
-                                studentSeminars.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                startActivity(studentSeminars);
-                                finish();
-                            } catch (java.io.IOException e) {
-                                e.printStackTrace();
-                            }
-                        } else {
-                            notifySignInFailure();
-                        }
-
-                        StudentSignInActivity.this.submitting = false;
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
+                    } else {
                         notifySignInFailure();
-                        StudentSignInActivity.this.submitting = false;
                     }
-                }) {
 
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<>();
-                params.put("nusp", nuspInput.getText().toString().trim());
-                params.put("pass", passwordInput.getText().toString().trim());
-                return params;
-            }
+                    StudentSignInActivity.this.submitting = false;
+                }
+            },
+            new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    notifySignInFailure();
+                    StudentSignInActivity.this.submitting = false;
+                }
+            }) {
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<>();
+                    params.put("nusp", nuspInput.getText().toString().trim());
+                    params.put("pass", passwordInput.getText().toString().trim());
+                    return params;
+                }
 
-            @Override
-            public String getBodyContentType() {
-                return "application/x-www-form-urlencoded";
-            }
+                @Override
+                public String getBodyContentType() {
+                    return "application/x-www-form-urlencoded";
+                }
         };
 
         queue.add(signInRequest);

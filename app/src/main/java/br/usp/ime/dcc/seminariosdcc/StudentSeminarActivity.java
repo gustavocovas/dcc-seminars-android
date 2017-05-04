@@ -2,42 +2,84 @@ package br.usp.ime.dcc.seminariosdcc;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 
 import java.io.IOException;
 
 import br.usp.ime.dcc.seminariosdcc.utils.SeminarsStore;
+import br.usp.ime.dcc.seminariosdcc.utils.SeminarsWebService;
 
 public class StudentSeminarActivity extends AppCompatActivity {
 
+    private RequestQueue queue;
     private SeminarsStore seminarsStore;
+
+    private ListView seminarListView;
+
+    private String[] seminars = new String[] {"Seminário 1", "Seminário 2"};
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        queue = Volley.newRequestQueue(this);
         seminarsStore = new SeminarsStore(getApplicationContext());
+
         setContentView(R.layout.activity_student_seminar);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        if (!userIsLoggedIn()) {
+        if (!isUserLoggedIn()) {
             redirectToLogin();
         }
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        setupSeminarsList();
+    }
+
+    private void setupSeminarsList() {
+        seminarListView = (ListView) findViewById(R.id.list_student_seminars);
+        final ArrayAdapter seminarsAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, seminars);
+        seminarListView.setAdapter(seminarsAdapter);
+    }
+
+    private void fetchSeminars() {
+        String seminarsURL = SeminarsWebService.URL + "/seminar";
+
+        StringRequest seminarsRequest = new StringRequest(
+                Request.Method.GET,
+                seminarsURL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // TODO: Handle "Successful" case
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        notifyFetchSeminarsFailure();
+                    }
+                });
+
+        queue.add(seminarsRequest);
+    }
+
+    private void notifyFetchSeminarsFailure() {
+        Snackbar.make(seminarListView, "Erro carregando seminários", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show();
     }
 
     @Override
@@ -68,7 +110,7 @@ public class StudentSeminarActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private boolean userIsLoggedIn() {
+    private boolean isUserLoggedIn() {
         boolean isLoggedIn;
 
         try {
