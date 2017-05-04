@@ -23,6 +23,10 @@ public class SeminarsStore {
         fos.close();
     }
 
+    private void removeFile(String filename) throws IOException {
+        saveStringToFile(filename, "");
+    }
+
     private String readStringFromFile(String filename) throws IOException {
         FileInputStream fis = context.getApplicationContext()
                 .openFileInput(filename);
@@ -45,11 +49,19 @@ public class SeminarsStore {
         return readStringFromFile(NUSP_FILENAME);
     }
 
+    public void removeNusp() throws IOException {
+        removeFile(NUSP_FILENAME);
+    }
+
     public void setPass(String pass) throws IOException {
         saveStringToFile(PASS_FILENAME, pass);
     }
 
     public String getPass() throws IOException {
         return readStringFromFile(PASS_FILENAME);
+    }
+
+    public void removePass() throws IOException {
+        removeFile(PASS_FILENAME);
     }
 }

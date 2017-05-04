@@ -16,17 +16,18 @@ import br.usp.ime.dcc.seminariosdcc.utils.SeminarsStore;
 
 public class StudentSeminarActivity extends AppCompatActivity {
 
+    private SeminarsStore seminarsStore;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        seminarsStore = new SeminarsStore(getApplicationContext());
         setContentView(R.layout.activity_student_seminar);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         if (!userIsLoggedIn()) {
-            Intent login = new Intent(this, LoginActivity.class);
-            startActivity(login);
-            finish();
+            redirectToLogin();
         }
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -53,8 +54,14 @@ public class StudentSeminarActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_logout) {
+            try {
+                seminarsStore.removeNusp();
+                seminarsStore.removePass();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            redirectToLogin();
             return true;
         }
 
@@ -64,7 +71,6 @@ public class StudentSeminarActivity extends AppCompatActivity {
     private boolean userIsLoggedIn() {
         boolean isLoggedIn;
 
-        SeminarsStore seminarsStore = new SeminarsStore(getApplicationContext());
         try {
             isLoggedIn = (!seminarsStore.getNusp().isEmpty() &&
                           !seminarsStore.getPass().isEmpty());
@@ -73,5 +79,11 @@ public class StudentSeminarActivity extends AppCompatActivity {
         }
 
         return isLoggedIn;
+    }
+
+    private void redirectToLogin() {
+        Intent login = new Intent(this, LoginActivity.class);
+        startActivity(login);
+        finish();
     }
 }

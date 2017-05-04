@@ -124,6 +124,7 @@ public class StudentSignInActivity extends AppCompatActivity {
                                 seminarsStore.setPass(passwordInput.getText().toString());
 
                                 Intent studentSeminars = new Intent(StudentSignInActivity.this, StudentSeminarActivity.class);
+                                studentSeminars.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(studentSeminars);
                                 finish();
                             } catch (java.io.IOException e) {
