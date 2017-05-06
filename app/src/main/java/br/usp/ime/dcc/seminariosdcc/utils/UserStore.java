@@ -6,14 +6,37 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-public class SeminarsStore {
+public class UserStore {
     private Context context;
 
     private String NUSP_FILENAME = "user.nusp";
     private String PASS_FILENAME = "user.pass";
 
-    public SeminarsStore(Context context) {
+    public UserStore(Context context) {
         this.context = context;
+    }
+
+    public boolean isLoggedIn() {
+        boolean isLoggedIn;
+
+        try {
+            isLoggedIn = (!getNusp().isEmpty() &&
+                          !getPass().isEmpty());
+        } catch (IOException e) {
+            isLoggedIn = false;
+        }
+
+        return isLoggedIn;
+    }
+
+    public void storeLoginCredentials(String nusp, String pass) throws IOException {
+        setNusp(nusp);
+        setPass(pass);
+    }
+
+    public void removeLoginCredentials() throws IOException {
+        removeNusp();
+        removePass();
     }
 
     private void saveStringToFile(String filename, String string) throws IOException {
@@ -41,27 +64,27 @@ public class SeminarsStore {
         return string;
     }
 
-    public void setNusp(String nusp) throws IOException {
+    private void setNusp(String nusp) throws IOException {
         saveStringToFile(NUSP_FILENAME, nusp);
     }
 
-    public String getNusp() throws IOException {
+    private String getNusp() throws IOException {
         return readStringFromFile(NUSP_FILENAME);
     }
 
-    public void removeNusp() throws IOException {
+    private void removeNusp() throws IOException {
         removeFile(NUSP_FILENAME);
     }
 
-    public void setPass(String pass) throws IOException {
+    private void setPass(String pass) throws IOException {
         saveStringToFile(PASS_FILENAME, pass);
     }
 
-    public String getPass() throws IOException {
+    private String getPass() throws IOException {
         return readStringFromFile(PASS_FILENAME);
     }
 
-    public void removePass() throws IOException {
+    private void removePass() throws IOException {
         removeFile(PASS_FILENAME);
     }
 }

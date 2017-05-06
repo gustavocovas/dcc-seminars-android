@@ -15,7 +15,6 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -25,7 +24,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-import br.usp.ime.dcc.seminariosdcc.utils.SeminarsStore;
+import br.usp.ime.dcc.seminariosdcc.utils.UserStore;
 import br.usp.ime.dcc.seminariosdcc.utils.SeminarsWebService;
 
 public class StudentSignInActivity extends AppCompatActivity {
@@ -116,12 +115,14 @@ public class StudentSignInActivity extends AppCompatActivity {
                     if (wasSuccessful) {
                         // Record user data and redirect to main activity;
 
-                        SeminarsStore seminarsStore = new SeminarsStore(getApplicationContext());
+                        UserStore userStore = new UserStore(getApplicationContext());
                         try {
-                            seminarsStore.setNusp(nuspInput.getText().toString());
-                            seminarsStore.setPass(passwordInput.getText().toString());
+                            userStore.storeLoginCredentials(
+                                    nuspInput.getText().toString(),
+                                    passwordInput.getText().toString()
+                            );
 
-                            Intent studentSeminars = new Intent(StudentSignInActivity.this, StudentSeminarActivity.class);
+                            Intent studentSeminars = new Intent(StudentSignInActivity.this, StudentSeminarListActivity.class);
                             studentSeminars.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             startActivity(studentSeminars);
                             finish();
