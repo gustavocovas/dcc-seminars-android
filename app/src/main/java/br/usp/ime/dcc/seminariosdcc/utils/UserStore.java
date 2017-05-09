@@ -2,9 +2,11 @@ package br.usp.ime.dcc.seminariosdcc.utils;
 
 import android.content.Context;
 
+import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class UserStore {
     private Context context;
@@ -20,8 +22,11 @@ public class UserStore {
         boolean isLoggedIn;
 
         try {
-            isLoggedIn = (!getNusp().isEmpty() &&
-                          !getPass().isEmpty());
+            String nusp = getNusp();
+            String pass = getPass();
+
+            isLoggedIn = (nusp != null && !nusp.isEmpty() &&
+                          pass != null && !pass.isEmpty());
         } catch (IOException e) {
             isLoggedIn = false;
         }
@@ -39,6 +44,14 @@ public class UserStore {
         removePass();
     }
 
+    public String getNusp() throws IOException {
+        return readStringFromFile(NUSP_FILENAME);
+    }
+
+    public String getPass() throws IOException {
+        return readStringFromFile(PASS_FILENAME);
+    }
+
     private void saveStringToFile(String filename, String string) throws IOException {
         FileOutputStream fos = context.getApplicationContext()
                 .openFileOutput(filename, Context.MODE_PRIVATE);
@@ -53,23 +66,21 @@ public class UserStore {
     private String readStringFromFile(String filename) throws IOException {
         FileInputStream fis = context.getApplicationContext()
                 .openFileInput(filename);
-        int size;
-        String string = null;
+        BufferedReader br = new BufferedReader(new InputStreamReader(fis));
 
-        while ((size = fis.read()) != -1) {
-            string += Character.toString((char) size);
+        StringBuilder sb = new StringBuilder();
+        String line;
+        while(( line = br.readLine()) != null ) {
+            sb.append( line );
+            sb.append( '\n' );
         }
         fis.close();
 
-        return string;
+        return sb.toString();
     }
 
     private void setNusp(String nusp) throws IOException {
         saveStringToFile(NUSP_FILENAME, nusp);
-    }
-
-    private String getNusp() throws IOException {
-        return readStringFromFile(NUSP_FILENAME);
     }
 
     private void removeNusp() throws IOException {
@@ -78,10 +89,6 @@ public class UserStore {
 
     private void setPass(String pass) throws IOException {
         saveStringToFile(PASS_FILENAME, pass);
-    }
-
-    private String getPass() throws IOException {
-        return readStringFromFile(PASS_FILENAME);
     }
 
     private void removePass() throws IOException {

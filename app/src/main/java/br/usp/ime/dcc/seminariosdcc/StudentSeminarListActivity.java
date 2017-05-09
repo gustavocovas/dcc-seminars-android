@@ -15,7 +15,6 @@ import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -194,7 +193,8 @@ public class StudentSeminarListActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_profile) {
-
+            Intent editProfile = new Intent(StudentSeminarListActivity.this, StudentEditProfileActivity.class);
+            startActivity(editProfile);
         } else if (id == R.id.nav_logout) {
             try {
                 userStore.removeLoginCredentials();

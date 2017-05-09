@@ -28,6 +28,8 @@
         <activity android:name=".StudentSignInSignUpActivity" />
         <activity android:name=".StudentSignInActivity" />
         <activity android:name=".StudentSeminarDetailActivity" />
+        <activity android:name=".StudentSignUpActivity" />
+        <activity android:name=".StudentEditProfileActivity"></activity>
     </application>
 
 </manifest>
