@@ -20,8 +20,17 @@ public class LoginActivity extends AppCompatActivity {
         studentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent studentSignInSignUp = new Intent(LoginActivity.this, StudentSignInSignUpActivity.class);
+                Intent studentSignInSignUp = new Intent(LoginActivity.this, StudentSignInActivity.class);
                 startActivity(studentSignInSignUp);
+            }
+        });
+
+        Button signUpButton = (Button) findViewById(R.id.signup_student_button);
+        signUpButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent studentSignUp = new Intent(LoginActivity.this, StudentSignUpActivity.class);
+                startActivity(studentSignUp);
             }
         });
     }
