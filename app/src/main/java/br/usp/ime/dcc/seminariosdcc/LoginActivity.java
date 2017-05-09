@@ -33,5 +33,14 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(studentSignUp);
             }
         });
+
+        Button professorButton = (Button) findViewById(R.id.professor_button);
+        signUpButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent studentSignUp = new Intent(LoginActivity.this, ProfessorOptions.class);
+                startActivity(studentSignUp);
+            }
+        });
     }
 }
