@@ -122,9 +122,9 @@ public class ProfessorSignInActivity extends AppCompatActivity {
                                         passwordInput.getText().toString()
                                 );
 
-                                Intent studentSeminars = new Intent(ProfessorSignInActivity.this, ProfessorOptions.class);
-                                studentSeminars.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                startActivity(studentSeminars);
+                                Intent professorOptions = new Intent(ProfessorSignInActivity.this, ProfessorOptions.class);
+                                professorOptions.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(professorOptions);
                                 finish();
                             } catch (java.io.IOException e) {
                                 e.printStackTrace();
