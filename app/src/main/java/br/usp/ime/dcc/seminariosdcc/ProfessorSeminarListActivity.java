@@ -192,10 +192,10 @@ public class ProfessorSeminarListActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.nav_profile) {
+        if (id == R.id.add_seminar) {
             Intent editProfile = new Intent(ProfessorSeminarListActivity.this, StudentEditProfileActivity.class);
             startActivity(editProfile);
-        } else if (id == R.id.nav_logout) {
+        } else if (id == R.id.edit_seminar) {
             try {
                 userStore.removeLoginCredentials();
             } catch (IOException e) {

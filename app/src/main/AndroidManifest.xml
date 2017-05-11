@@ -33,7 +33,8 @@
         <activity android:name=".ProfessorOptions" />
         <activity android:name=".ProfessorSignInActivity" />
         <activity android:name=".ProfessorSeminarListActivity" />
-        <activity android:name=".ProfessorSeminarDetailActivity"></activity>
+        <activity android:name=".ProfessorSeminarDetailActivity" />
+        <activity android:name=".ProfessorRemoveStudentActivity"></activity>
     </application>
 
 </manifest>

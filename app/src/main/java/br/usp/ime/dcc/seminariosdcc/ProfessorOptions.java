@@ -9,6 +9,13 @@ import android.widget.Button;
 
 public class ProfessorOptions extends AppCompatActivity {
 
+
+    private void redirectToLogin() {
+        Intent login = new Intent(this, LoginActivity.class);
+        startActivity(login);
+        finish();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,8 +45,8 @@ public class ProfessorOptions extends AppCompatActivity {
         removestudentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent studentSignInSignUp = new Intent(ProfessorOptions.this, StudentSignInActivity.class);
-                startActivity(studentSignInSignUp);
+                Intent professorRemoveStudent = new Intent(ProfessorOptions.this, ProfessorRemoveStudentActivity.class);
+                startActivity(professorRemoveStudent);
             }
         });
 
@@ -47,8 +54,7 @@ public class ProfessorOptions extends AppCompatActivity {
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent loginActivity = new Intent(ProfessorOptions.this, LoginActivity.class);
-                startActivity(loginActivity);
+                redirectToLogin();
             }
         });
     }
