@@ -36,8 +36,8 @@ public class ProfessorOptions extends AppCompatActivity {
         professorsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent studentSignInSignUp = new Intent(ProfessorOptions.this, StudentSignInActivity.class);
-                startActivity(studentSignInSignUp);
+                Intent professorRegisterList = new Intent(ProfessorOptions.this, ProfessorRegisterListActivity.class);
+                startActivity(professorRegisterList);
             }
         });
 

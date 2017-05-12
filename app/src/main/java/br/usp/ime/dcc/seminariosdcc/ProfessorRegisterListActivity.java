@@ -33,22 +33,22 @@ import java.util.ArrayList;
 import br.usp.ime.dcc.seminariosdcc.utils.SeminarsWebService;
 import br.usp.ime.dcc.seminariosdcc.utils.UserStore;
 
-public class ProfessorSeminarListActivity extends AppCompatActivity
+public class ProfessorRegisterListActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private RequestQueue requestQueue;
     private UserStore userStore;
 
-    private ListView seminarListView;
-    private ArrayAdapter seminarsAdapter;
+    private ListView professorListView;
+    private ArrayAdapter professorsAdapter;
 
-    private ArrayList<String> seminarIds = new ArrayList<>();
-    private ArrayList<String> seminarNames = new ArrayList<>();
+
+    private ArrayList<String> professorNames = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_professor_seminar_list);
+        setContentView(R.layout.activity_professor_register_list);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -68,52 +68,41 @@ public class ProfessorSeminarListActivity extends AppCompatActivity
             redirectToLogin();
         }
 
-        setupSeminarsList();
-        fetchSeminars();
+        setupProfessorList();
+        fetchProfessors();
     }
 
-    private void redirectToLogin() {
-        Intent login = new Intent(this, LoginActivity.class);
-        startActivity(login);
-        finish();
+    private void setupProfessorList() {
+        professorListView = (ListView) findViewById(R.id.list_professor_register);
+        professorsAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, professorNames);
+        professorListView.setAdapter(professorsAdapter);
+
+
     }
 
-    private void setupSeminarsList() {
-        seminarListView = (ListView) findViewById(R.id.list_professor_seminars);
-        seminarsAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, seminarNames);
-        seminarListView.setAdapter(seminarsAdapter);
+    private void fetchProfessors() {
+        String professorsURL = SeminarsWebService.URL + "/teacher";
 
-        seminarListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                openSeminar(seminarIds.get(position));
-            }
-        });
-    }
-
-    private void fetchSeminars() {
-        String seminarsURL = SeminarsWebService.URL + "/seminar";
-
-        StringRequest seminarsRequest = new StringRequest(
+        StringRequest professorsRequest = new StringRequest(
                 Request.Method.GET,
-                seminarsURL,
+                professorsURL,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        parseFetchSeminarsResponse(response);
+                        parseFetchProfessorsResponse(response);
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        notifyFetchSeminarsFailure();
+                        notifyFetchProfessorsFailure();
                     }
                 });
 
-        requestQueue.add(seminarsRequest);
+        requestQueue.add(professorsRequest);
     }
 
-    private void parseFetchSeminarsResponse(String response) {
+    private void parseFetchProfessorsResponse(String response) {
         boolean wasSuccessful;
 
         JSONObject responseJSONObject;
@@ -122,38 +111,35 @@ public class ProfessorSeminarListActivity extends AppCompatActivity
             wasSuccessful = responseJSONObject.getBoolean("success");
 
             if (wasSuccessful) {
-                seminarIds.clear();
-                seminarNames.clear();
+                professorNames.clear();
 
                 JSONArray seminarsJSONArray = responseJSONObject.getJSONArray("data");
                 for (int i = 0; i < seminarsJSONArray.length(); i++) {
                     JSONObject seminar = seminarsJSONArray.getJSONObject(i);
-                    seminarIds.add(seminar.getString("id"));
-                    seminarNames.add(seminar.getString("name"));
+                    professorNames.add(seminar.getString("name"));
                 }
-                seminarsAdapter.notifyDataSetChanged();
+                professorsAdapter.notifyDataSetChanged();
             }
         } catch (JSONException e) {
             wasSuccessful = false;
         }
 
         if (!wasSuccessful) {
-            notifyFetchSeminarsFailure();
+            notifyFetchProfessorsFailure();
         }
     }
 
-    private void notifyFetchSeminarsFailure() {
-        Snackbar.make(seminarListView, "Erro carregando seminários", Snackbar.LENGTH_LONG)
+    private void notifyFetchProfessorsFailure() {
+        Snackbar.make(professorListView, "Erro carregando professores", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
     }
 
-    private void openSeminar(String seminarId) {
-        Intent seminarDetail = new Intent(this, ProfessorSeminarDetailActivity.class);
-        seminarDetail.putExtra("seminar.id", seminarId);
 
-        startActivity(seminarDetail);
+    private void redirectToLogin() {
+        Intent login = new Intent(this, LoginActivity.class);
+        startActivity(login);
+        finish();
     }
-
 
     @Override
     public void onBackPressed() {
@@ -181,7 +167,7 @@ public class ProfessorSeminarListActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_refresh) {
-            fetchSeminars();
+            fetchProfessors();
             return true;
         }
 
@@ -193,12 +179,12 @@ public class ProfessorSeminarListActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.add_seminar) {
-            Intent addSeminar = new Intent(ProfessorSeminarListActivity.this, ProfessorAddSeminarActivity.class);
-            startActivity(addSeminar);
-        } else if (id == R.id.edit_seminar) {
-            Intent editSeminar = new Intent(ProfessorSeminarListActivity.this,ProfessorEditSeminarActivity.class);
-            startActivity(editSeminar);
+        if (id == R.id.signup_professor_button) {
+            Intent ProfessorSignUp = new Intent(ProfessorRegisterListActivity.this, ProfessorSignUpActivity.class);
+            startActivity(ProfessorSignUp);
+        } else if (id == R.id.edit_professor_button) {
+            Intent editProfile = new Intent(ProfessorRegisterListActivity.this, ProfessorEditProfileActivity.class);
+            startActivity(editProfile);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -206,3 +192,5 @@ public class ProfessorSeminarListActivity extends AppCompatActivity
         return true;
     }
 }
+
+
