@@ -39,7 +39,8 @@
         <activity android:name=".ProfessorEditSeminarActivity" />
         <activity android:name=".ProfessorRegisterListActivity" />
         <activity android:name=".ProfessorSignUpActivity" />
-        <activity android:name=".ProfessorEditProfileActivity"></activity>
+        <activity android:name=".ProfessorEditProfileActivity" />
+        <activity android:name=".ProfessorStudentSeminarActivity"></activity>
     </application>
 
 </manifest>

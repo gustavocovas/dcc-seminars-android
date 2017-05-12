@@ -30,6 +30,12 @@ tools:context="br.usp.ime.dcc.seminariosdcc.ProfessorRemoveStudentActivity">
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/button_seminars_student"
+        android:text="Seminários Assistidos"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/button_remove_student"
         android:text="Remover"/>
 </LinearLayout>

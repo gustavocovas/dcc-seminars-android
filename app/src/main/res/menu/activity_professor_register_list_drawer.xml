@@ -3,10 +3,10 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/add_professor"
+            android:id="@+id/signup_professor_button"
             android:title="Adicionar Professor" />
         <item
-            android:id="@+id/edit_professor"
+            android:id="@+id/edit_professor_button"
             android:title="Editar ou Remover Professor" />
     </group>
 </menu>

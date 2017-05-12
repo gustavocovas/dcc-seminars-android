@@ -33,7 +33,8 @@ public class ProfessorRemoveStudentActivity extends AppCompatActivity {
     private RequestQueue queue;
     private UserStore userStore;
 
-    private Button submitButton;
+    private Button removeButton;
+    private Button seminarsSeenButton;
     private TextInputEditText nuspInput;
 
     private boolean submitting = false;
@@ -53,10 +54,11 @@ public class ProfessorRemoveStudentActivity extends AppCompatActivity {
         nuspInput = (TextInputEditText) findViewById(R.id.text_nusp_student_to_be_removed);
 
 
-        submitButton = (Button) findViewById(R.id.button_remove_student);
+        removeButton = (Button) findViewById(R.id.button_remove_student);
+        seminarsSeenButton = (Button) findViewById(R.id.button_seminars_student);
 
 
-        updateRemoveButtonStatus();
+        updateButtonsStatus();
 
         TextWatcher watcher = new TextWatcher() {
             @Override
@@ -69,7 +71,7 @@ public class ProfessorRemoveStudentActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                updateRemoveButtonStatus();
+                updateButtonsStatus();
             }
         };
 
@@ -77,10 +79,16 @@ public class ProfessorRemoveStudentActivity extends AppCompatActivity {
 
 
 
-        submitButton.setOnClickListener(new View.OnClickListener() {
+        removeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 removeStudent();
+            }
+        });
+        seminarsSeenButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                seminarsStudent();
             }
         });
     }
@@ -109,28 +117,77 @@ public class ProfessorRemoveStudentActivity extends AppCompatActivity {
                             }
 
                             if (wasSuccessful) {
-                                //toast
+                                notifyRemoveSuccess();
                             } else {
-                                handleFetchError();
+                                handleRemoveFetchError();
                             }
                         }
                     },
                     new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
-                            handleFetchError();
+                            handleRemoveFetchError();
                         }
                     }
             );
 
             queue.add(studentRemoveRequest);
         } catch (IOException e) {
-            handleFetchError();
+            handleRemoveFetchError();
         }
     }
 
-    private void handleFetchError() {
-        notifySubmitFailure();
+    private void seminarsStudent() {
+        try {
+            final String nusp = userStore.getNusp();
+
+            String studentSeminarsURL = SeminarsWebService.URL + "/attendence/listSeminars" + nusp;
+
+            StringRequest studentSeminarsRequest = new StringRequest(
+                    Request.Method.POST,
+                    studentSeminarsURL,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            boolean wasSuccessful;
+
+
+                            try {
+                                JSONObject responseJSONObject = new JSONObject(response);
+                                wasSuccessful = responseJSONObject.getBoolean("success");
+
+                            } catch (JSONException e) {
+                                wasSuccessful = false;
+                            }
+
+                            if (wasSuccessful) {
+
+                            } else {
+                                handleStudentsSeminarsFetchError();
+                            }
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            handleStudentsSeminarsFetchError();
+                        }
+                    }
+            );
+
+            queue.add(studentSeminarsRequest);
+        } catch (IOException e) {
+            handleStudentsSeminarsFetchError();
+        }
+    }
+
+    private void handleRemoveFetchError() {
+        notifyRemoveFailure();
+        finish();
+    }
+
+    private void handleStudentsSeminarsFetchError() {
+        notifyStudentSeminarsFailure();
         finish();
     }
 
@@ -141,15 +198,24 @@ public class ProfessorRemoveStudentActivity extends AppCompatActivity {
 
     }
 
-    private void updateRemoveButtonStatus() {
-        submitButton.setEnabled(canSubmit());
+    private void updateButtonsStatus() {
+        removeButton.setEnabled(canSubmit());
+        seminarsSeenButton.setEnabled(canSubmit());
     }
 
-    private void notifySubmitFailure() {
-        Snackbar.make(submitButton, "Não foi possível remover o cadastro", Snackbar.LENGTH_LONG)
+    private void notifyRemoveFailure() {
+        Snackbar.make(removeButton, "Não foi possível remover o cadastro", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
     }
 
+    private void notifyRemoveSuccess() {
+        Snackbar.make(removeButton, "Aluno removido com sucesso", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show();
+    }
+
+    private void notifyStudentSeminarsFailure() {
+        Snackbar.make(removeButton, "Não foi possível remover o cadastro", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show();
+    }
 
 }
-

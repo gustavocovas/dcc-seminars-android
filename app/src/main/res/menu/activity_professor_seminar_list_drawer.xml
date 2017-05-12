@@ -8,8 +8,5 @@
         <item
             android:id="@+id/edit_seminar"
             android:title="Editar ou Remover Seminário" />
-        <item
-            android:id="@+id/student_seminars"
-            android:title="Ver Seminários Vistos Por Aluno" />
     </group>
 </menu>
