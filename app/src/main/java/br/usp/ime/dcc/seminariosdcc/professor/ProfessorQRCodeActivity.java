@@ -1,24 +1,21 @@
 package br.usp.ime.dcc.seminariosdcc.professor;
 
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.Point;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
+import android.view.Display;
 import android.widget.ImageView;
 
 import com.google.zxing.BarcodeFormat;
-import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.QRCodeWriter;
 
 import br.usp.ime.dcc.seminariosdcc.R;
 
-import static android.graphics.Color.BLACK;
-import static android.graphics.Color.WHITE;
-
 public class ProfessorQRCodeActivity extends AppCompatActivity {
-    private int WIDTH = 5;
-    private int width = 1;
     public String seminarId ;
 
     @Override
@@ -27,34 +24,30 @@ public class ProfessorQRCodeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_professor_qrcode);
         seminarId = getIntent().getStringExtra("seminar_id");
         ImageView imageView = (ImageView) findViewById(R.id.imageView1);
+
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+
+        Bitmap bitmap = generateQRBitmap(seminarId, size.x, size.x);
+        imageView.setImageBitmap(bitmap);
+    }
+
+    public static Bitmap generateQRBitmap(String content, int width, int height) {
+        Bitmap bitmap = null;
+
+        QRCodeWriter writer = new QRCodeWriter();
         try {
-            Bitmap bitmap = encodeAsBitmap(seminarId);
-            imageView.setImageBitmap(bitmap);
+            BitMatrix bitMatrix = writer.encode(content, BarcodeFormat.QR_CODE, width, height);
+            bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
+            for (int x = 0; x < width; x++) {
+                for (int y = 0; y < height; y++) {
+                    bitmap.setPixel(x, y, bitMatrix.get(x, y) ? Color.BLACK : Color.WHITE);
+                }
+            }
         } catch (WriterException e) {
             e.printStackTrace();
         }
-    }
-
-    Bitmap encodeAsBitmap(String str) throws WriterException {
-        BitMatrix result;
-        try {
-            result = new MultiFormatWriter().encode(str,
-                    BarcodeFormat.QR_CODE, WIDTH, WIDTH, null);
-        } catch (IllegalArgumentException iae) {
-            // Unsupported format
-            return null;
-        }
-        int w = result.getWidth();
-        int h = result.getHeight();
-        int[] pixels = new int[w * h];
-        for (int y = 0; y < h; y++) {
-            int offset = y * w;
-            for (int x = 0; x < w; x++) {
-                pixels[offset + x] = result.get(x, y) ? BLACK : WHITE;
-            }
-        }
-        Bitmap bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
-        bitmap.setPixels(pixels, 0, width, 0, 0, w, h);
         return bitmap;
     }
 }

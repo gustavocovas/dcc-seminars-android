@@ -52,7 +52,6 @@ public class ProfessorSeminarDetailActivity extends AppCompatActivity {
         generateQRCodeButton = (Button) findViewById(R.id.button_professor_generate_QRCode);
         manualRegisterStudentButton = (Button) findViewById(R.id.button_manual_register);
 
-
         setupSeminarsList();
 
         Intent intent = getIntent();
@@ -75,13 +74,23 @@ public class ProfessorSeminarDetailActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onResume() {
+        generateQRCodeButton.setText("Gerar QR code");
+        generateQRCodeButton.setEnabled(true);
+        super.onResume();
+    }
+
     private void addAttendence(String seminar_id) {
         Intent addAttendence = new Intent(this, ProfessorAddAttendenceActivity.class);
         addAttendence.putExtra("seminar_id", seminar_id);
         startActivity(addAttendence);
     }
 
-    private void getQRCode(String seminar_id){
+    private void getQRCode(String seminar_id) {
+        generateQRCodeButton.setText("Gerando...");
+        generateQRCodeButton.setEnabled(false);
+
         Intent getQRCd = new Intent (this, ProfessorQRCodeActivity.class);
         getQRCd.putExtra("seminar_id", seminar_id);
         startActivity(getQRCd);

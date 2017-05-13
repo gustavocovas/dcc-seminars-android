@@ -19,9 +19,7 @@ import br.usp.ime.dcc.seminariosdcc.R;
 public class StudentQRCodeActivity extends AppCompatActivity implements View.OnClickListener {
 
         private Button scanBtn;
-
         private TextView tvScanFormat, tvScanContent;
-
         private LinearLayout llSearch;
 
         @Override
@@ -40,14 +38,8 @@ public class StudentQRCodeActivity extends AppCompatActivity implements View.OnC
             IntentIntegrator integrator = new IntentIntegrator(this);
             integrator.setPrompt("Scan a QRcode");
             integrator.setOrientationLocked(false);
+            integrator.setDesiredBarcodeFormats(IntentIntegrator.ONE_D_CODE_TYPES);
             integrator.initiateScan();
-//        Use this for more customization
-
-        integrator.setDesiredBarcodeFormats(IntentIntegrator.ONE_D_CODE_TYPES);
-        integrator.setPrompt("Scan a QRCode");
-        integrator.setBeepEnabled(false);
-        integrator.initiateScan();
-
         }
 
         @Override
