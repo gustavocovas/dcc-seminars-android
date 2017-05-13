@@ -24,8 +24,7 @@
         <activity
             android:name=".student.StudentSeminarListActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity android:name=".student.StudentSignInActivity" />
         <activity android:name=".student.StudentSeminarDetailActivity" />
         <activity android:name=".student.StudentSignUpActivity" />
@@ -34,8 +33,7 @@
         <activity
             android:name=".professor.ProfessorSeminarListActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity android:name=".professor.ProfessorSeminarDetailActivity" />
         <activity android:name=".professor.ProfessorRemoveStudentActivity" />
         <activity android:name=".professor.ProfessorAddSeminarActivity" />
@@ -43,6 +41,7 @@
         <activity android:name=".professor.ProfessorRegisterListActivity" />
         <activity android:name=".professor.ProfessorSignUpActivity" />
         <activity android:name=".professor.ProfessorEditProfileActivity" />
+        <activity android:name=".professor.ProfessorAddAttendenceActivity"></activity>
     </application>
 
 </manifest>

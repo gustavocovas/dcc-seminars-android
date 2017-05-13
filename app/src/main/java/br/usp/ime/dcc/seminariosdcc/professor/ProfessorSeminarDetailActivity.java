@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -54,10 +55,23 @@ public class ProfessorSeminarDetailActivity extends AppCompatActivity {
         setupSeminarsList();
 
         Intent intent = getIntent();
-        String id = intent.getStringExtra("seminar.id");
+        final String id = intent.getStringExtra("seminar.id");
 
         fetchSeminar(id);
         fetchAttendences(id);
+
+        manualRegisterStudentButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addAttendence(id);
+            }
+        });
+    }
+
+    private void addAttendence(String seminar_id) {
+        Intent addAttendence = new Intent(this, ProfessorAddAttendenceActivity.class);
+        addAttendence.putExtra("seminar_id", seminar_id);
+        startActivity(addAttendence);
     }
 
     private void setupSeminarsList() {
