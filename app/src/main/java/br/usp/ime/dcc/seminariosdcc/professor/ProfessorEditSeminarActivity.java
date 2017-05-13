@@ -1,4 +1,4 @@
-package br.usp.ime.dcc.seminariosdcc;
+package br.usp.ime.dcc.seminariosdcc.professor;
 
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
@@ -21,8 +21,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
-
-import br.usp.ime.dcc.seminariosdcc.utils.SeminarsWebService;
+import br.usp.ime.dcc.seminariosdcc.R;
+import br.usp.ime.dcc.seminariosdcc.shared.SeminarsWebService;
 
 
 public class ProfessorEditSeminarActivity extends AppCompatActivity {

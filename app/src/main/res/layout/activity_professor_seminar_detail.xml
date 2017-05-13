@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
-    tools:context="br.usp.ime.dcc.seminariosdcc.ProfessorSeminarDetailActivity">
+    tools:context="br.usp.ime.dcc.seminariosdcc.professor.ProfessorSeminarDetailActivity">
 
     <TextView
         android:layout_width="match_parent"
@@ -17,13 +17,6 @@
         android:id="@+id/text_professor_seminar_detail"
     />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="8dp"
-        android:text="Confirme presença utilizando o QR code preferencialmente"
-        />
-
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -31,11 +24,26 @@
         android:text="Abrir QR Code"
         android:enabled="false"
     />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="24dp"
+        android:padding="8dp"
+        android:text="Presenças"
+    />
+
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/button_manual_register"
-        android:text="Registrar Aluno Manualmente"
-        android:enabled="false"
-        />
+        android:text="Adicionar presença"
+        android:enabled="false" />
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/list_attendence">
+    </ListView>
+
 </LinearLayout>

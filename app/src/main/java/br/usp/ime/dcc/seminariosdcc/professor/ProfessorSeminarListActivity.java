@@ -1,17 +1,18 @@
-package br.usp.ime.dcc.seminariosdcc;
+package br.usp.ime.dcc.seminariosdcc.professor;
 
 import android.content.Intent;
-import android.os.Bundle;
-import android.support.design.widget.Snackbar;
-import android.view.View;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -27,13 +28,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
-import br.usp.ime.dcc.seminariosdcc.utils.SeminarsWebService;
-import br.usp.ime.dcc.seminariosdcc.utils.UserStore;
+import br.usp.ime.dcc.seminariosdcc.LoginActivity;
+import br.usp.ime.dcc.seminariosdcc.R;
+import br.usp.ime.dcc.seminariosdcc.shared.SeminarsWebService;
+import br.usp.ime.dcc.seminariosdcc.shared.UserStore;
 
-public class StudentSeminarListActivity extends AppCompatActivity
+public class ProfessorSeminarListActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private RequestQueue requestQueue;
@@ -45,10 +47,27 @@ public class StudentSeminarListActivity extends AppCompatActivity
     private ArrayList<String> seminarIds = new ArrayList<>();
     private ArrayList<String> seminarNames = new ArrayList<>();
 
+    private FloatingActionButton addSeminarButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_student_seminar_list);
+        setContentView(R.layout.activity_professor_seminar_list);
+
+        setupViews();
+
+        requestQueue = Volley.newRequestQueue(this);
+        userStore = new UserStore(getApplicationContext());
+
+        if (!userStore.isLoggedIn()) {
+            redirectToLogin();
+        }
+
+        setupSeminarsList();
+        fetchSeminars();
+    }
+
+    private void setupViews() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -61,15 +80,24 @@ public class StudentSeminarListActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        requestQueue = Volley.newRequestQueue(this);
-        userStore = new UserStore(getApplicationContext());
+        addSeminarButton = (FloatingActionButton) findViewById(R.id.fab_add_seminar);
+        addSeminarButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addSeminar();
+            }
+        });
+    }
 
-        if (!userStore.isLoggedIn()) {
-            redirectToLogin();
-        }
+    private void addSeminar() {
+        Intent addSeminar = new Intent(this, ProfessorAddSeminarActivity.class);
+        startActivity(addSeminar);
+    }
 
-        setupSeminarsList();
-        fetchSeminars();
+    private void redirectToLogin() {
+        Intent login = new Intent(this, LoginActivity.class);
+        startActivity(login);
+        finish();
     }
 
     private void setupSeminarsList() {
@@ -142,16 +170,10 @@ public class StudentSeminarListActivity extends AppCompatActivity
     }
 
     private void openSeminar(String seminarId) {
-        Intent seminarDetail = new Intent(this, StudentSeminarDetailActivity.class);
+        Intent seminarDetail = new Intent(this, ProfessorSeminarDetailActivity.class);
         seminarDetail.putExtra("seminar.id", seminarId);
 
         startActivity(seminarDetail);
-    }
-
-    private void redirectToLogin() {
-        Intent login = new Intent(this, LoginActivity.class);
-        startActivity(login);
-        finish();
     }
 
     @Override
@@ -192,16 +214,12 @@ public class StudentSeminarListActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.nav_profile) {
-            Intent editProfile = new Intent(StudentSeminarListActivity.this, StudentEditProfileActivity.class);
+        if (id == R.id.edit_profile) {
+            Intent editProfile = new Intent(ProfessorSeminarListActivity.this, ProfessorEditProfileActivity.class);
             startActivity(editProfile);
-        } else if (id == R.id.nav_logout) {
-            try {
-                userStore.removeLoginCredentials();
-            } catch (IOException e) {
-                // Nothing to do, redirect to login
-            }
-            redirectToLogin();
+        } else if (id == R.id.add_professor) {
+            Intent addProfessor = new Intent(ProfessorSeminarListActivity.this, ProfessorSignUpActivity.class);
+            startActivity(addProfessor);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

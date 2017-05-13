@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="br.usp.ime.dcc.seminariosdcc.StudentEditProfileActivity">
+    tools:context="br.usp.ime.dcc.seminariosdcc.student.StudentEditProfileActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -22,7 +22,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/text_input_name_seminar"
-                android:inputType="number"
+                android:inputType="text"
                 android:hint="Nome"/>
         </android.support.design.widget.TextInputLayout>
 

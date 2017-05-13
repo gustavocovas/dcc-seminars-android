@@ -1,4 +1,4 @@
-package br.usp.ime.dcc.seminariosdcc;
+package br.usp.ime.dcc.seminariosdcc.professor;
 
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
@@ -9,6 +9,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -19,34 +20,40 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import br.usp.ime.dcc.seminariosdcc.utils.SeminarsWebService;
+import java.util.HashMap;
+import java.util.Map;
 
-public class ProfessorAddSeminarActivity extends AppCompatActivity {
+import br.usp.ime.dcc.seminariosdcc.R;
+import br.usp.ime.dcc.seminariosdcc.shared.SeminarsWebService;
+
+public class ProfessorEditProfileActivity extends AppCompatActivity {
 
     private RequestQueue queue;
 
-    private Button addButton;
+    private Button updateButton;
+    private TextInputEditText nuspInput;
     private TextInputEditText nameInput;
+    private TextInputEditText passwordInput;
 
     private boolean submitting = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_professor_add_seminar);
+        setContentView(R.layout.activity_professor_edit_profile);
 
         queue = Volley.newRequestQueue(this);
-
 
         initializeViews();
     }
 
     private void initializeViews() {
-        nameInput = (TextInputEditText) findViewById(R.id.text_input_name_seminar);
-        addButton = (Button) findViewById(R.id.button_add_seminar);
+        nuspInput = (TextInputEditText) findViewById(R.id.text_input_nusp_professor_edit_profile);
+        nameInput = (TextInputEditText) findViewById(R.id.text_input_name_professor_edit_profile);
+        passwordInput = (TextInputEditText) findViewById(R.id.text_input_password_professor_edit_profile);
+        updateButton = (Button) findViewById(R.id.button_professor_update_profile);
 
-
-        updateButtonStatus();
+        updateButtonsStatus();
 
         TextWatcher watcher = new TextWatcher() {
             @Override
@@ -59,46 +66,48 @@ public class ProfessorAddSeminarActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                updateButtonStatus();
+                updateButtonsStatus();
             }
         };
 
-
+        nuspInput.addTextChangedListener(watcher);
         nameInput.addTextChangedListener(watcher);
+        passwordInput.addTextChangedListener(watcher);
 
-
-        addButton.setOnClickListener(new View.OnClickListener() {
+        updateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                submit();
+                submitUpdate();
             }
         });
-
     }
 
     private boolean canSubmit() {
         return  !submitting &&
+                nuspInput != null &&
+                nuspInput.getText().toString().length() > 0 &&
                 nameInput != null &&
-                nameInput.getText().toString().length() > 0;
+                nameInput.getText().toString().length() > 0 &&
+                passwordInput != null &&
+                passwordInput.getText().toString().length() > 0;
     }
 
-    private void updateButtonStatus() {
-        addButton.setEnabled(canSubmit());
+    private void updateButtonsStatus() {
+        updateButton.setEnabled(canSubmit());
     }
 
-
-    private void notifyAddFailure() {
-        Snackbar.make(addButton, "Não foi possível adicionar o seminário", Snackbar.LENGTH_LONG)
+    private void notifyUpdateFailure() {
+        Snackbar.make(updateButton, "Não foi possível alterar o cadastro", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
     }
 
-    void submit() {
+    void submitUpdate() {
         submitting = true;
-        String addSeminarURL = SeminarsWebService.URL + "/student/add";
+        String updateProfileURL = SeminarsWebService.URL + "/teacher/edit";
 
-        StringRequest addSeminarRequest = new StringRequest(
+        StringRequest updateRequest = new StringRequest(
                 Request.Method.POST,
-                addSeminarURL,
+                updateProfileURL,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -114,20 +123,27 @@ public class ProfessorAddSeminarActivity extends AppCompatActivity {
                         if (wasSuccessful) {
                             finish();
                         } else {
-                            notifyAddFailure();
+                            notifyUpdateFailure();
                         }
 
-                        ProfessorAddSeminarActivity.this.submitting = false;
+                        ProfessorEditProfileActivity.this.submitting = false;
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        notifyAddFailure();
-                        ProfessorAddSeminarActivity.this.submitting = false;
+                        notifyUpdateFailure();
+                        ProfessorEditProfileActivity.this.submitting = false;
                     }
                 }) {
-
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("nusp", nuspInput.getText().toString().trim());
+                params.put("name", nameInput.getText().toString().trim());
+                params.put("pass", passwordInput.getText().toString().trim());
+                return params;
+            }
 
             @Override
             public String getBodyContentType() {
@@ -135,8 +151,6 @@ public class ProfessorAddSeminarActivity extends AppCompatActivity {
             }
         };
 
-        queue.add(addSeminarRequest);
+        queue.add(updateRequest);
     }
-
 }
-

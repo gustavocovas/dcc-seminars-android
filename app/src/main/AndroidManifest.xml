@@ -12,8 +12,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".StudentSeminarListActivity"
-            android:label="@string/app_name"
+            android:name=".LoginActivity"
+            android:label="@string/title_activity_login"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,25 +22,27 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LoginActivity"
-            android:label="@string/title_activity_login"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".StudentSignInSignUpActivity" />
-        <activity android:name=".StudentSignInActivity" />
-        <activity android:name=".StudentSeminarDetailActivity" />
-        <activity android:name=".StudentSignUpActivity" />
-        <activity android:name=".StudentEditProfileActivity" />
-        <activity android:name=".ProfessorOptions" />
-        <activity android:name=".ProfessorSignInActivity" />
-        <activity android:name=".ProfessorSeminarListActivity" />
-        <activity android:name=".ProfessorSeminarDetailActivity" />
-        <activity android:name=".ProfessorRemoveStudentActivity" />
-        <activity android:name=".ProfessorAddSeminarActivity" />
-        <activity android:name=".ProfessorEditSeminarActivity" />
-        <activity android:name=".ProfessorRegisterListActivity" />
-        <activity android:name=".ProfessorSignUpActivity" />
-        <activity android:name=".ProfessorEditProfileActivity" />
-        <activity android:name=".ProfessorStudentSeminarActivity"></activity>
+            android:name=".student.StudentSeminarListActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity android:name=".student.StudentSignInActivity" />
+        <activity android:name=".student.StudentSeminarDetailActivity" />
+        <activity android:name=".student.StudentSignUpActivity" />
+        <activity android:name=".student.StudentEditProfileActivity" />
+        <activity android:name=".professor.ProfessorSignInActivity" />
+        <activity
+            android:name=".professor.ProfessorSeminarListActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity android:name=".professor.ProfessorSeminarDetailActivity" />
+        <activity android:name=".professor.ProfessorRemoveStudentActivity" />
+        <activity android:name=".professor.ProfessorAddSeminarActivity" />
+        <activity android:name=".professor.ProfessorEditSeminarActivity" />
+        <activity android:name=".professor.ProfessorRegisterListActivity" />
+        <activity android:name=".professor.ProfessorSignUpActivity" />
+        <activity android:name=".professor.ProfessorEditProfileActivity" />
     </application>
 
 </manifest>

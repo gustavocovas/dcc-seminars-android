@@ -1,4 +1,4 @@
-package br.usp.ime.dcc.seminariosdcc;
+package br.usp.ime.dcc.seminariosdcc.professor;
 
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
@@ -9,7 +9,6 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -21,11 +20,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
-import br.usp.ime.dcc.seminariosdcc.utils.SeminarsWebService;
-import br.usp.ime.dcc.seminariosdcc.utils.UserStore;
+import br.usp.ime.dcc.seminariosdcc.R;
+import br.usp.ime.dcc.seminariosdcc.shared.SeminarsWebService;
+import br.usp.ime.dcc.seminariosdcc.shared.UserStore;
 
 public class ProfessorRemoveStudentActivity extends AppCompatActivity {
 

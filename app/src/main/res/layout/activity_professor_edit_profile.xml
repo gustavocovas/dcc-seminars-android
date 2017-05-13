@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="br.usp.ime.dcc.seminariosdcc.ProfessorEditProfileActivity">
+    tools:context="br.usp.ime.dcc.seminariosdcc.professor.ProfessorEditProfileActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -54,12 +54,6 @@
             android:layout_height="wrap_content"
             android:id="@+id/button_professor_update_profile"
             android:text="Atualizar"/>
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/button_professor_remove_profile"
-            android:text="Remover"/>
     </LinearLayout>
 </LinearLayout>
 

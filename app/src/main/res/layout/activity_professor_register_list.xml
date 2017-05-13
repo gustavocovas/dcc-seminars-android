@@ -4,6 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="br.usp.ime.dcc.seminariosdcc.ProfessorRegisterListActivity">
+    tools:context="br.usp.ime.dcc.seminariosdcc.professor.ProfessorRegisterListActivity">
 
 </android.support.constraint.ConstraintLayout>

@@ -1,4 +1,4 @@
-package br.usp.ime.dcc.seminariosdcc;
+package br.usp.ime.dcc.seminariosdcc.student;
 
 import android.content.Intent;
 import android.support.design.widget.Snackbar;
@@ -24,15 +24,16 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-import br.usp.ime.dcc.seminariosdcc.utils.SeminarsWebService;
-import br.usp.ime.dcc.seminariosdcc.utils.UserStore;
+import br.usp.ime.dcc.seminariosdcc.R;
+import br.usp.ime.dcc.seminariosdcc.shared.SeminarsWebService;
 
-public class ProfessorSignInActivity extends AppCompatActivity {
+public class StudentSignUpActivity extends AppCompatActivity {
 
     private RequestQueue queue;
 
-    private Button signInButton;
+    private Button signUpButton;
     private TextInputEditText nuspInput;
+    private TextInputEditText nameInput;
     private TextInputEditText passwordInput;
 
     private boolean submitting = false;
@@ -40,15 +41,16 @@ public class ProfessorSignInActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_professor_sign_in);
+        setContentView(R.layout.activity_student_sign_up);
 
         queue = Volley.newRequestQueue(this);
 
-        nuspInput = (TextInputEditText) findViewById(R.id.text_input_nusp_professor_sign_in);
-        passwordInput = (TextInputEditText) findViewById(R.id.text_input_password_professor_sign_in);
-        signInButton = (Button) findViewById(R.id.button_professor_sign_in);
+        nuspInput = (TextInputEditText) findViewById(R.id.text_input_nusp_student_sign_up);
+        nameInput = (TextInputEditText) findViewById(R.id.text_input_name_student_sign_up);
+        passwordInput = (TextInputEditText) findViewById(R.id.text_input_password_student_sign_up);
+        signUpButton = (Button) findViewById(R.id.button_student_sign_up);
 
-        updateSignInButtonStatus();
+        updateSignUpButtonStatus();
 
         TextWatcher watcher = new TextWatcher() {
             @Override
@@ -61,17 +63,18 @@ public class ProfessorSignInActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                updateSignInButtonStatus();
+                updateSignUpButtonStatus();
             }
         };
 
         nuspInput.addTextChangedListener(watcher);
+        nameInput.addTextChangedListener(watcher);
         passwordInput.addTextChangedListener(watcher);
 
-        signInButton.setOnClickListener(new View.OnClickListener() {
+        signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                signIn();
+                signUp();
             }
         });
     }
@@ -80,26 +83,28 @@ public class ProfessorSignInActivity extends AppCompatActivity {
         return  !submitting &&
                 nuspInput != null &&
                 nuspInput.getText().toString().length() > 0 &&
+                nameInput != null &&
+                nameInput.getText().toString().length() > 0 &&
                 passwordInput != null &&
                 passwordInput.getText().toString().length() > 0;
     }
 
-    private void updateSignInButtonStatus() {
-        signInButton.setEnabled(canSubmit());
+    private void updateSignUpButtonStatus() {
+        signUpButton.setEnabled(canSubmit());
     }
 
-    private void notifySignInFailure() {
-        Snackbar.make(signInButton, "Não foi possível fazer o login", Snackbar.LENGTH_LONG)
+    private void notifySignUpFailure() {
+        Snackbar.make(signUpButton, "Não foi possível fazer o cadastro", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
     }
 
-    void signIn() {
+    void signUp() {
         submitting = true;
-        String signInURL = SeminarsWebService.URL + "/login/teacher";
+        String signUpURL = SeminarsWebService.URL + "/student/add";
 
-        StringRequest signInRequest = new StringRequest(
+        StringRequest signUpRequest = new StringRequest(
                 Request.Method.POST,
-                signInURL,
+                signUpURL,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -113,40 +118,27 @@ public class ProfessorSignInActivity extends AppCompatActivity {
                         }
 
                         if (wasSuccessful) {
-                            // Record user data and redirect to main activity;
-
-                            UserStore userStore = new UserStore(getApplicationContext());
-                            try {
-                                userStore.storeLoginCredentials(
-                                        nuspInput.getText().toString(),
-                                        passwordInput.getText().toString()
-                                );
-
-                                Intent professorOptions = new Intent(ProfessorSignInActivity.this, ProfessorOptions.class);
-                                professorOptions.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                startActivity(professorOptions);
-                                finish();
-                            } catch (java.io.IOException e) {
-                                e.printStackTrace();
-                            }
+                            Intent login = new Intent(StudentSignUpActivity.this, StudentSignInActivity.class);
+                            startActivity(login);
                         } else {
-                            notifySignInFailure();
+                            notifySignUpFailure();
                         }
 
-                        ProfessorSignInActivity.this.submitting = false;
+                        StudentSignUpActivity.this.submitting = false;
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        notifySignInFailure();
-                        ProfessorSignInActivity.this.submitting = false;
+                        notifySignUpFailure();
+                        StudentSignUpActivity.this.submitting = false;
                     }
                 }) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
                 params.put("nusp", nuspInput.getText().toString().trim());
+                params.put("name", nameInput.getText().toString().trim());
                 params.put("pass", passwordInput.getText().toString().trim());
                 return params;
             }
@@ -157,6 +149,6 @@ public class ProfessorSignInActivity extends AppCompatActivity {
             }
         };
 
-        queue.add(signInRequest);
+        queue.add(signUpRequest);
     }
 }

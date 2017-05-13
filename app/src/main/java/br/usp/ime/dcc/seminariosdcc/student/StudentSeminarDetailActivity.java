@@ -1,4 +1,4 @@
-package br.usp.ime.dcc.seminariosdcc;
+package br.usp.ime.dcc.seminariosdcc.student;
 
 import android.content.Intent;
 import android.support.design.widget.Snackbar;
@@ -17,7 +17,8 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import br.usp.ime.dcc.seminariosdcc.utils.SeminarsWebService;
+import br.usp.ime.dcc.seminariosdcc.R;
+import br.usp.ime.dcc.seminariosdcc.shared.SeminarsWebService;
 
 public class StudentSeminarDetailActivity extends AppCompatActivity {
 

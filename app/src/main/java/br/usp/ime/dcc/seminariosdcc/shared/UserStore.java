@@ -1,4 +1,4 @@
-package br.usp.ime.dcc.seminariosdcc.utils;
+package br.usp.ime.dcc.seminariosdcc.shared;
 
 import android.content.Context;
 

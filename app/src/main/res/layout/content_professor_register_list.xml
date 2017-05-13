@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
     <!--app:layout_behavior="@string/appbar_scrolling_view_behavior">-->
     <!--tools:showIn="@layout/app_bar_student_seminar_list"-->
-    <!--tools:context="br.usp.ime.dcc.seminariosdcc.StudentSeminarListActivity">-->
+    <!--tools:context="br.usp.ime.dcc.seminariosdcc.student.StudentSeminarListActivity">-->
 
     <LinearLayout
         android:orientation="vertical"

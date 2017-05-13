@@ -1,4 +1,4 @@
-package br.usp.ime.dcc.seminariosdcc;
+package br.usp.ime.dcc.seminariosdcc.professor;
 
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
@@ -20,19 +20,17 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import br.usp.ime.dcc.seminariosdcc.utils.SeminarsWebService;
-import br.usp.ime.dcc.seminariosdcc.utils.UserStore;
+import br.usp.ime.dcc.seminariosdcc.R;
+import br.usp.ime.dcc.seminariosdcc.shared.SeminarsWebService;
 
-public class StudentEditProfileActivity extends AppCompatActivity {
+public class ProfessorSignUpActivity extends AppCompatActivity {
 
     private RequestQueue queue;
-    private UserStore userStore;
 
-    private Button submitButton;
+    private Button signUpButton;
     private TextInputEditText nuspInput;
     private TextInputEditText nameInput;
     private TextInputEditText passwordInput;
@@ -42,22 +40,16 @@ public class StudentEditProfileActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_student_edit_profile);
+        setContentView(R.layout.activity_professor_sign_up);
 
         queue = Volley.newRequestQueue(this);
-        userStore = new UserStore(this);
 
-        initializeViews();
-    }
+        nuspInput = (TextInputEditText) findViewById(R.id.text_input_nusp_professor_sign_up);
+        nameInput = (TextInputEditText) findViewById(R.id.text_input_name_professor_sign_up);
+        passwordInput = (TextInputEditText) findViewById(R.id.text_input_password_professor_sign_up);
+        signUpButton = (Button) findViewById(R.id.button_professor_sign_up);
 
-    private void initializeViews() {
-        nuspInput = (TextInputEditText) findViewById(R.id.text_input_nusp_student_edit_profile);
-        nameInput = (TextInputEditText) findViewById(R.id.text_input_name_student_edit_profile);
-        passwordInput = (TextInputEditText) findViewById(R.id.text_input_password_student_edit_profile);
-        submitButton = (Button) findViewById(R.id.button_student_edit_profile);
-
-        fetchUserData();
-        updateSubmitButtonStatus();
+        updateSignUpButtonStatus();
 
         TextWatcher watcher = new TextWatcher() {
             @Override
@@ -70,7 +62,7 @@ public class StudentEditProfileActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                updateSubmitButtonStatus();
+                updateSignUpButtonStatus();
             }
         };
 
@@ -78,63 +70,12 @@ public class StudentEditProfileActivity extends AppCompatActivity {
         nameInput.addTextChangedListener(watcher);
         passwordInput.addTextChangedListener(watcher);
 
-        submitButton.setOnClickListener(new View.OnClickListener() {
+        signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                submit();
+                signUp();
             }
         });
-    }
-
-    private void fetchUserData() {
-        try {
-            final String nusp = userStore.getNusp();
-            final String pass = userStore.getPass();
-            String studentReadURL = SeminarsWebService.URL + "/student/get/" + nusp;
-
-            StringRequest studentReadRequest = new StringRequest(
-                    Request.Method.GET,
-                    studentReadURL,
-                    new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
-                            boolean wasSuccessful;
-                            String name = "";
-
-                            try {
-                                JSONObject responseJSONObject = new JSONObject(response);
-                                wasSuccessful = responseJSONObject.getBoolean("success");
-                                name = responseJSONObject.getJSONObject("data").getString("name");
-                            } catch (JSONException e) {
-                                wasSuccessful = false;
-                            }
-
-                            if (wasSuccessful) {
-                                nuspInput.setText(nusp);
-                                nameInput.setText(name);
-                                passwordInput.setText(pass);
-                            } else {
-                                handleFetchError();
-                            }
-                        }
-                    },
-                    new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            handleFetchError();
-                        }
-                    }
-            );
-
-            queue.add(studentReadRequest);
-        } catch (IOException e) {
-            handleFetchError();
-        }
-    }
-
-    private void handleFetchError() {
-        notifyFetchFailure();
-        finish();
     }
 
     private boolean canSubmit() {
@@ -147,27 +88,27 @@ public class StudentEditProfileActivity extends AppCompatActivity {
                 passwordInput.getText().toString().length() > 0;
     }
 
-    private void updateSubmitButtonStatus() {
-        submitButton.setEnabled(canSubmit());
+    private void updateSignUpButtonStatus() {
+        signUpButton.setEnabled(canSubmit());
     }
 
-    private void notifyFetchFailure() {
-        Snackbar.make(submitButton, "Erro carregando dados cadastrais", Snackbar.LENGTH_LONG)
+    private void notifySignUpFailure() {
+        Snackbar.make(signUpButton, "Não foi possível fazer o cadastro", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
     }
 
-    private void notifySubmitFailure() {
-        Snackbar.make(submitButton, "Não foi possível alterar seu cadastro", Snackbar.LENGTH_LONG)
+    private void notifySignUpSucces() {
+        Snackbar.make(signUpButton, "Cadastro Realizado com Sucesso", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
     }
 
-    void submit() {
+    void signUp() {
         submitting = true;
-        String updateProfileURL = SeminarsWebService.URL + "/student/edit";
+        String signUpURL = SeminarsWebService.URL + "/teacher/add";
 
         StringRequest signUpRequest = new StringRequest(
                 Request.Method.POST,
-                updateProfileURL,
+                signUpURL,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -181,19 +122,19 @@ public class StudentEditProfileActivity extends AppCompatActivity {
                         }
 
                         if (wasSuccessful) {
-                            finish();
+                            notifySignUpSucces();
                         } else {
-                            notifySubmitFailure();
+                            notifySignUpFailure();
                         }
 
-                        StudentEditProfileActivity.this.submitting = false;
+                        ProfessorSignUpActivity.this.submitting = false;
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        notifySubmitFailure();
-                        StudentEditProfileActivity.this.submitting = false;
+                        notifySignUpFailure();
+                        ProfessorSignUpActivity.this.submitting = false;
                     }
                 }) {
             @Override

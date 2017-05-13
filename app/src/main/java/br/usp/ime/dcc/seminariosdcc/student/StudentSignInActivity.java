@@ -1,4 +1,4 @@
-package br.usp.ime.dcc.seminariosdcc;
+package br.usp.ime.dcc.seminariosdcc.student;
 
 import android.content.Intent;
 import android.support.design.widget.Snackbar;
@@ -24,8 +24,9 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-import br.usp.ime.dcc.seminariosdcc.utils.UserStore;
-import br.usp.ime.dcc.seminariosdcc.utils.SeminarsWebService;
+import br.usp.ime.dcc.seminariosdcc.R;
+import br.usp.ime.dcc.seminariosdcc.shared.UserStore;
+import br.usp.ime.dcc.seminariosdcc.shared.SeminarsWebService;
 
 public class StudentSignInActivity extends AppCompatActivity {
 

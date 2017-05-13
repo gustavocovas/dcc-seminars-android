@@ -7,6 +7,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 
+import br.usp.ime.dcc.seminariosdcc.professor.ProfessorSignInActivity;
+import br.usp.ime.dcc.seminariosdcc.student.StudentSignInActivity;
+import br.usp.ime.dcc.seminariosdcc.student.StudentSignUpActivity;
+
 public class LoginActivity extends AppCompatActivity {
 
     @Override
@@ -25,21 +29,21 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        Button signUpButton = (Button) findViewById(R.id.register_student_button);
-        signUpButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent studentSignUp = new Intent(LoginActivity.this, StudentSignUpActivity.class);
-                startActivity(studentSignUp);
-            }
-        });
-
         Button professorButton = (Button) findViewById(R.id.professor_button);
         professorButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent professorSignIn = new Intent(LoginActivity.this, ProfessorSignInActivity.class);
                 startActivity(professorSignIn);
+            }
+        });
+
+        Button signUpButton = (Button) findViewById(R.id.register_student_button);
+        signUpButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent studentSignUp = new Intent(LoginActivity.this, StudentSignUpActivity.class);
+                startActivity(studentSignUp);
             }
         });
     }
