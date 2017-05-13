@@ -20,7 +20,6 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,7 +33,6 @@ public class StudentEditProfileActivity extends AppCompatActivity {
     private UserStore userStore;
 
     private Button submitButton;
-    private TextInputEditText nuspInput;
     private TextInputEditText nameInput;
     private TextInputEditText passwordInput;
 
@@ -49,15 +47,15 @@ public class StudentEditProfileActivity extends AppCompatActivity {
         userStore = new UserStore(this);
 
         initializeViews();
+
+        fetchUserData();
     }
 
     private void initializeViews() {
-        nuspInput = (TextInputEditText) findViewById(R.id.text_input_nusp_student_edit_profile);
         nameInput = (TextInputEditText) findViewById(R.id.text_input_name_student_edit_profile);
         passwordInput = (TextInputEditText) findViewById(R.id.text_input_password_student_edit_profile);
         submitButton = (Button) findViewById(R.id.button_student_edit_profile);
 
-        fetchUserData();
         updateSubmitButtonStatus();
 
         TextWatcher watcher = new TextWatcher() {
@@ -75,7 +73,6 @@ public class StudentEditProfileActivity extends AppCompatActivity {
             }
         };
 
-        nuspInput.addTextChangedListener(watcher);
         nameInput.addTextChangedListener(watcher);
         passwordInput.addTextChangedListener(watcher);
 
@@ -88,49 +85,44 @@ public class StudentEditProfileActivity extends AppCompatActivity {
     }
 
     private void fetchUserData() {
-        try {
-            final String nusp = userStore.getNusp();
-            final String pass = userStore.getPass();
-            String studentReadURL = SeminarsWebService.URL + "/student/get/" + nusp;
+        final String nusp = userStore.getNusp();
+        final String pass = userStore.getPass();
+        String studentReadURL = SeminarsWebService.URL + "/student/get/" + nusp;
 
-            StringRequest studentReadRequest = new StringRequest(
-                    Request.Method.GET,
-                    studentReadURL,
-                    new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
-                            boolean wasSuccessful;
-                            String name = "";
+        StringRequest studentReadRequest = new StringRequest(
+                Request.Method.GET,
+                studentReadURL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        boolean wasSuccessful;
+                        String name = "";
 
-                            try {
-                                JSONObject responseJSONObject = new JSONObject(response);
-                                wasSuccessful = responseJSONObject.getBoolean("success");
-                                name = responseJSONObject.getJSONObject("data").getString("name");
-                            } catch (JSONException e) {
-                                wasSuccessful = false;
-                            }
-
-                            if (wasSuccessful) {
-                                nuspInput.setText(nusp);
-                                nameInput.setText(name);
-                                passwordInput.setText(pass);
-                            } else {
-                                handleFetchError();
-                            }
+                        try {
+                            JSONObject responseJSONObject = new JSONObject(response);
+                            wasSuccessful = responseJSONObject.getBoolean("success");
+                            name = responseJSONObject.getJSONObject("data").getString("name");
+                        } catch (JSONException e) {
+                            wasSuccessful = false;
                         }
-                    },
-                    new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
+
+                        if (wasSuccessful) {
+                            nameInput.setText(name);
+                            passwordInput.setText(pass);
+                        } else {
                             handleFetchError();
                         }
                     }
-            );
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        handleFetchError();
+                    }
+                }
+        );
 
-            queue.add(studentReadRequest);
-        } catch (IOException e) {
-            handleFetchError();
-        }
+        queue.add(studentReadRequest);
     }
 
     private void handleFetchError() {
@@ -140,8 +132,6 @@ public class StudentEditProfileActivity extends AppCompatActivity {
 
     private boolean canSubmit() {
         return  !submitting &&
-                nuspInput != null &&
-                nuspInput.getText().toString().length() > 0 &&
                 nameInput != null &&
                 nameInput.getText().toString().length() > 0 &&
                 passwordInput != null &&
@@ -200,7 +190,7 @@ public class StudentEditProfileActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-                params.put("nusp", nuspInput.getText().toString().trim());
+                params.put("nusp", userStore.getNusp());
                 params.put("name", nameInput.getText().toString().trim());
                 params.put("pass", passwordInput.getText().toString().trim());
                 return params;

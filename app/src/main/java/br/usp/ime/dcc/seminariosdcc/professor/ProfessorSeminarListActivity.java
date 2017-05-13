@@ -28,6 +28,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import br.usp.ime.dcc.seminariosdcc.LoginActivity;
@@ -214,7 +215,14 @@ public class ProfessorSeminarListActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.edit_profile) {
+        if (id == R.id.nav_logout) {
+            try {
+                userStore.removeLoginCredentials();
+            } catch (IOException e) {
+                // Nothing to do, redirect to login
+            }
+            redirectToLogin();
+        } else if (id == R.id.edit_profile) {
             Intent editProfile = new Intent(ProfessorSeminarListActivity.this, ProfessorEditProfileActivity.class);
             startActivity(editProfile);
         } else if (id == R.id.add_professor) {

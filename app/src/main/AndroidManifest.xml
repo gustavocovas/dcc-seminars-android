@@ -35,7 +35,6 @@
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity android:name=".professor.ProfessorSeminarDetailActivity" />
-        <activity android:name=".professor.ProfessorRemoveStudentActivity" />
         <activity android:name=".professor.ProfessorAddSeminarActivity" />
         <activity android:name=".professor.ProfessorEditSeminarActivity" />
         <activity android:name=".professor.ProfessorRegisterListActivity" />

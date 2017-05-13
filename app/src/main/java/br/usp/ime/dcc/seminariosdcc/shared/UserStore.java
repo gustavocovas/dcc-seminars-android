@@ -21,15 +21,11 @@ public class UserStore {
     public boolean isLoggedIn() {
         boolean isLoggedIn;
 
-        try {
-            String nusp = getNusp();
-            String pass = getPass();
+        String nusp = getNusp();
+        String pass = getPass();
 
-            isLoggedIn = (nusp != null && !nusp.isEmpty() &&
-                          pass != null && !pass.isEmpty());
-        } catch (IOException e) {
-            isLoggedIn = false;
-        }
+        isLoggedIn = (nusp != null && !nusp.isEmpty() &&
+                      pass != null && !pass.isEmpty());
 
         return isLoggedIn;
     }
@@ -44,12 +40,20 @@ public class UserStore {
         removePass();
     }
 
-    public String getNusp() throws IOException {
-        return readStringFromFile(NUSP_FILENAME);
+    public String getNusp() {
+        try {
+            return readStringFromFile(NUSP_FILENAME);
+        } catch (IOException e) {
+            return null;
+        }
     }
 
-    public String getPass() throws IOException {
-        return readStringFromFile(PASS_FILENAME);
+    public String getPass() {
+        try {
+            return readStringFromFile(PASS_FILENAME);
+        } catch (IOException e) {
+            return null;
+        }
     }
 
     private void saveStringToFile(String filename, String string) throws IOException {

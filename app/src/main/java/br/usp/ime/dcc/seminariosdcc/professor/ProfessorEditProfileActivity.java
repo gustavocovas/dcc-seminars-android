@@ -25,13 +25,14 @@ import java.util.Map;
 
 import br.usp.ime.dcc.seminariosdcc.R;
 import br.usp.ime.dcc.seminariosdcc.shared.SeminarsWebService;
+import br.usp.ime.dcc.seminariosdcc.shared.UserStore;
 
 public class ProfessorEditProfileActivity extends AppCompatActivity {
 
     private RequestQueue queue;
+    private UserStore userStore;
 
     private Button updateButton;
-    private TextInputEditText nuspInput;
     private TextInputEditText nameInput;
     private TextInputEditText passwordInput;
 
@@ -43,12 +44,13 @@ public class ProfessorEditProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_professor_edit_profile);
 
         queue = Volley.newRequestQueue(this);
+        userStore = new UserStore(this);
 
         initializeViews();
+        fetchUserData();
     }
 
     private void initializeViews() {
-        nuspInput = (TextInputEditText) findViewById(R.id.text_input_nusp_professor_edit_profile);
         nameInput = (TextInputEditText) findViewById(R.id.text_input_name_professor_edit_profile);
         passwordInput = (TextInputEditText) findViewById(R.id.text_input_password_professor_edit_profile);
         updateButton = (Button) findViewById(R.id.button_professor_update_profile);
@@ -70,7 +72,6 @@ public class ProfessorEditProfileActivity extends AppCompatActivity {
             }
         };
 
-        nuspInput.addTextChangedListener(watcher);
         nameInput.addTextChangedListener(watcher);
         passwordInput.addTextChangedListener(watcher);
 
@@ -84,12 +85,56 @@ public class ProfessorEditProfileActivity extends AppCompatActivity {
 
     private boolean canSubmit() {
         return  !submitting &&
-                nuspInput != null &&
-                nuspInput.getText().toString().length() > 0 &&
                 nameInput != null &&
                 nameInput.getText().toString().length() > 0 &&
                 passwordInput != null &&
                 passwordInput.getText().toString().length() > 0;
+    }
+
+    private void fetchUserData() {
+        final String nusp = userStore.getNusp();
+        final String pass = userStore.getPass();
+        String studentReadURL = SeminarsWebService.URL + "/teacher/get/" + nusp;
+
+        StringRequest studentReadRequest = new StringRequest(
+                Request.Method.GET,
+                studentReadURL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        boolean wasSuccessful;
+                        String name = "";
+
+                        try {
+                            JSONObject responseJSONObject = new JSONObject(response);
+                            wasSuccessful = responseJSONObject.getBoolean("success");
+                            name = responseJSONObject.getJSONObject("data").getString("name");
+                        } catch (JSONException e) {
+                            wasSuccessful = false;
+                        }
+
+                        if (wasSuccessful) {
+                            nameInput.setText(name);
+                            passwordInput.setText(pass);
+                        } else {
+                            handleFetchError();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        handleFetchError();
+                    }
+                }
+        );
+
+        queue.add(studentReadRequest);
+    }
+
+    private void handleFetchError() {
+        notifyFetchFailure();
+        finish();
     }
 
     private void updateButtonsStatus() {
@@ -139,7 +184,7 @@ public class ProfessorEditProfileActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-                params.put("nusp", nuspInput.getText().toString().trim());
+                params.put("nusp", userStore.getNusp());
                 params.put("name", nameInput.getText().toString().trim());
                 params.put("pass", passwordInput.getText().toString().trim());
                 return params;
@@ -152,5 +197,10 @@ public class ProfessorEditProfileActivity extends AppCompatActivity {
         };
 
         queue.add(updateRequest);
+    }
+
+    private void notifyFetchFailure() {
+        Snackbar.make(updateButton, "Erro carregando dados cadastrais", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show();
     }
 }
