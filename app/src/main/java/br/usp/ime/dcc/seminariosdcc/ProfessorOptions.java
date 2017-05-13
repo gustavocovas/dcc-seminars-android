@@ -20,8 +20,8 @@ public class ProfessorOptions extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_professor_options);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
 
         Button seminarsButton = (Button) findViewById(R.id.seminars_button);
         seminarsButton.setOnClickListener(new View.OnClickListener() {
