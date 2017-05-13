@@ -44,8 +44,18 @@ public class StudentSeminarDetailActivity extends AppCompatActivity {
         String id = intent.getStringExtra("seminar.id");
 
         fetchSeminar(id);
+        presenceConfirmationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getQRCode();
+            }
+        });
     }
 
+    private void getQRCode(){
+        Intent getQRCd = new Intent (this, StudentQRCodeActivity.class);
+        startActivity(getQRCd);
+    }
     private void fetchSeminar(String id) {
         String seminarsURL = SeminarsWebService.URL + "/seminar/get/" + id;
 

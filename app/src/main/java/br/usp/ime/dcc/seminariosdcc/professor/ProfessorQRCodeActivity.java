@@ -18,15 +18,17 @@ import static android.graphics.Color.WHITE;
 
 public class ProfessorQRCodeActivity extends AppCompatActivity {
     private int WIDTH = 5;
-    private int width = 5;
+    private int width = 1;
+    public String seminarId ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_professor_qrcode);
+        seminarId = getIntent().getStringExtra("seminar_id");
         ImageView imageView = (ImageView) findViewById(R.id.imageView1);
         try {
-            Bitmap bitmap = encodeAsBitmap("1");
+            Bitmap bitmap = encodeAsBitmap(seminarId);
             imageView.setImageBitmap(bitmap);
         } catch (WriterException e) {
             e.printStackTrace();
