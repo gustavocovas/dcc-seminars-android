@@ -22,13 +22,4 @@
 
     <include layout="@layout/content_student_seminar_list" />
 
-
-    <android.support.design.widget.FloatingActionButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        android:id="@+id/fab_add_seminar"
-        android:src="@drawable/ic_add"/>
-
 </android.support.design.widget.CoordinatorLayout>
