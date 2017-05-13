@@ -29,14 +29,21 @@
         android:padding="16dp">
 
         <Button
+            android:id="@+id/professor_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Professor" />
+
+        <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/student_button"
             android:text="Aluno"/>
+
         <Button
+            android:id="@+id/register_student_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/professor_button"
-            android:text="Professor"/>
+            android:text="Registrar Aluno" />
     </LinearLayout>
 </LinearLayout>

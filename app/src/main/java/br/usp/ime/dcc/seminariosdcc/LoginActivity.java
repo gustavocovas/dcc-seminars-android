@@ -20,8 +20,26 @@ public class LoginActivity extends AppCompatActivity {
         studentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent studentSignInSignUp = new Intent(LoginActivity.this, StudentSignInSignUpActivity.class);
+                Intent studentSignInSignUp = new Intent(LoginActivity.this, StudentSignInActivity.class);
                 startActivity(studentSignInSignUp);
+            }
+        });
+
+        Button signUpButton = (Button) findViewById(R.id.register_student_button);
+        signUpButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent studentSignUp = new Intent(LoginActivity.this, StudentSignUpActivity.class);
+                startActivity(studentSignUp);
+            }
+        });
+
+        Button professorButton = (Button) findViewById(R.id.professor_button);
+        professorButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent professorSignIn = new Intent(LoginActivity.this, ProfessorSignInActivity.class);
+                startActivity(professorSignIn);
             }
         });
     }

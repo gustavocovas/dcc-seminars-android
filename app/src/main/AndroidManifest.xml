@@ -29,7 +29,18 @@
         <activity android:name=".StudentSignInActivity" />
         <activity android:name=".StudentSeminarDetailActivity" />
         <activity android:name=".StudentSignUpActivity" />
-        <activity android:name=".StudentEditProfileActivity"></activity>
+        <activity android:name=".StudentEditProfileActivity" />
+        <activity android:name=".ProfessorOptions" />
+        <activity android:name=".ProfessorSignInActivity" />
+        <activity android:name=".ProfessorSeminarListActivity" />
+        <activity android:name=".ProfessorSeminarDetailActivity" />
+        <activity android:name=".ProfessorRemoveStudentActivity" />
+        <activity android:name=".ProfessorAddSeminarActivity" />
+        <activity android:name=".ProfessorEditSeminarActivity" />
+        <activity android:name=".ProfessorRegisterListActivity" />
+        <activity android:name=".ProfessorSignUpActivity" />
+        <activity android:name=".ProfessorEditProfileActivity" />
+        <activity android:name=".ProfessorStudentSeminarActivity"></activity>
     </application>
 
 </manifest>
