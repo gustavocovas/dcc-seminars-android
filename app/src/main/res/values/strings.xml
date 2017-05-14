@@ -8,4 +8,24 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="scan">Scanear</string>
     <string name="action_settings">Settings</string>
+
+
+    <string name="nusp">Número USP</string>
+    <string name="pass">Senha</string>
+    <string name="name">Nome</string>
+    <string name="update">Atualizar</string>
+    <string name="login">Entrar</string>
+    <string name="logout">Sair</string>
+    <string name="signup">Cadastrar</string>
+    <string name="student">Aluno</string>
+    <string name="professor">Professor</string>
+    <string name="add">Adicionar</string>
+    <string name="present">Presenças</string>
+    <string name="studentsignup">Cadastrar Aluno</string>
+    <string name="professorsignup">Cadastrar Professor</string>
+    <string name="updateprofile">Atualizar Cadastro</string>
+    <string name="loading">Carregando...</string>
+    <string name="studentQRCODE">Confirme presença utilizando o QR Code disponibilizado pelo professor</string>
+    <string name="professorQRCODE">Gerar QR Code</string>
+    <string name="studentpresent">Confirmar Presença</string>
 </resources>

@@ -24,14 +24,14 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/text_input_nusp_attendance"
                 android:inputType="number"
-                android:hint="Número USP"/>
+                android:hint="@string/nusp"/>
         </android.support.design.widget.TextInputLayout>
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/button_add_attendence"
-            android:text="Adicionar"/>
+            android:text="@string/add"/>
     </LinearLayout>
 
 </LinearLayout>

@@ -4,9 +4,9 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/signup_professor_button"
-            android:title="Adicionar Professor" />
+            android:title="@string/professorsignup" />
         <item
             android:id="@+id/edit_professor_button"
-            android:title="Editar ou Remover Professor" />
+            android:title="@string/updateprofile" />
     </group>
 </menu>

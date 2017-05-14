@@ -22,7 +22,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/text_input_name_student_sign_up"
-                android:hint="Nome"/>
+                android:hint="@string/name"/>
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -34,7 +34,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/text_input_nusp_student_sign_up"
                 android:inputType="number"
-                android:hint="Número USP"/>
+                android:hint="@string/nusp"/>
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -46,14 +46,14 @@
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
                 android:id="@+id/text_input_password_student_sign_up"
-                android:hint="Senha"/>
+                android:hint="@string/pass"/>
         </android.support.design.widget.TextInputLayout>
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/button_student_sign_up"
-            android:text="Cadastrar"/>
+            android:text="@string/signup"/>
     </LinearLayout>
 </LinearLayout>
 

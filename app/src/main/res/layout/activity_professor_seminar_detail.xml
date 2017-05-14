@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:textSize="24dp"
         android:padding="8dp"
-        android:text="Carregando..."
+        android:text="@string/loading"
         android:id="@+id/text_professor_seminar_detail"
     />
 
@@ -21,7 +21,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/button_professor_generate_QRCode"
-        android:text="Abrir QR Code"
+        android:text="@string/professorQRCODE"
         android:enabled="false"
     />
 
@@ -30,14 +30,14 @@
         android:layout_height="wrap_content"
         android:textSize="24dp"
         android:padding="8dp"
-        android:text="Presenças"
+        android:text="@string/present"
     />
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/button_manual_register"
-        android:text="Adicionar presença"
+        android:text="@string/add"
         android:enabled="false" />
 
     <ListView

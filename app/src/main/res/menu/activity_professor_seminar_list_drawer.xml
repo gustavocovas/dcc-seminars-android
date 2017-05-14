@@ -4,12 +4,12 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/edit_profile"
-            android:title="Editar Perfil" />
+            android:title="@string/updateprofile" />
         <item
             android:id="@+id/add_professor"
-            android:title="Registrar Professor" />
+            android:title="@string/professorsignup" />
         <item
             android:id="@+id/nav_logout"
-            android:title="Sair" />
+            android:title="@string/logout" />
     </group>
 </menu>

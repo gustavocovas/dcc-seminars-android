@@ -32,18 +32,18 @@
             android:id="@+id/professor_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Professor" />
+            android:text="@string/professor" />
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/student_button"
-            android:text="Aluno"/>
+            android:text="@string/student"/>
 
         <Button
             android:id="@+id/register_student_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Registrar Aluno" />
+            android:text="@string/studentsignup" />
     </LinearLayout>
 </LinearLayout>

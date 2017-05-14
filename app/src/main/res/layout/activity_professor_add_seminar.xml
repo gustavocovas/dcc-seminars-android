@@ -23,14 +23,14 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/text_input_name_seminar"
                 android:inputType="text"
-                android:hint="Nome"/>
+                android:hint="@string/name"/>
         </android.support.design.widget.TextInputLayout>
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/button_add_seminar"
-            android:text="Adicionar"/>
+            android:text="@string/add"/>
     </LinearLayout>
 </LinearLayout>
 

@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:textSize="24dp"
         android:padding="8dp"
-        android:text="Carregando..."
+        android:text="@string/loading"
         android:id="@+id/text_student_seminar_detail"
     />
 
@@ -21,14 +21,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="8dp"
-        android:text="Confirme presença utilizando o QR code disponibilizado pelo professor"
+        android:text="@string/studentQRCODE"
         />
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/button_student_presence_confirmation"
-        android:text="Confirmar presença"
+        android:text="@string/studentpresent"
         android:enabled="false"
     />
 </LinearLayout>
