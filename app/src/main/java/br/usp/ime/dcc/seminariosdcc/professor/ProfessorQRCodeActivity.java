@@ -33,6 +33,9 @@ public class ProfessorQRCodeActivity extends AppCompatActivity {
         imageView.setImageBitmap(bitmap);
     }
 
+
+    // Inspired from answers to this question at Stack Overflow:
+    // http://stackoverflow.com/questions/28232116/android-using-zxing-generate-qr-code
     public static Bitmap generateQRBitmap(String content, int width, int height) {
         Bitmap bitmap = null;
 

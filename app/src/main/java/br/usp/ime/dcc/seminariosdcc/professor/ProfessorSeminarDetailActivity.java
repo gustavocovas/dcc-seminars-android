@@ -42,34 +42,40 @@ public class ProfessorSeminarDetailActivity extends AppCompatActivity {
 
     private ArrayList<String> attendencesNusps = new ArrayList<>();
 
+    private String seminarId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_professor_seminar_detail);
 
+        Intent intent = getIntent();
+        seminarId = intent.getStringExtra("seminar.id");
+
         requestQueue = Volley.newRequestQueue(this);
+
+        setupSeminarsList();
+        initializeViews();
+
+        fetchSeminar(seminarId);
+        fetchAttendences(seminarId);
+    }
+
+    private void initializeViews() {
         seminarNameTextView = (TextView) findViewById(R.id.text_professor_seminar_detail);
         generateQRCodeButton = (Button) findViewById(R.id.button_professor_generate_QRCode);
         manualRegisterStudentButton = (Button) findViewById(R.id.button_manual_register);
 
-        setupSeminarsList();
-
-        Intent intent = getIntent();
-        final String id = intent.getStringExtra("seminar.id");
-
-        fetchSeminar(id);
-        fetchAttendences(id);
-
         manualRegisterStudentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addAttendence(id);
+                addAttendence(seminarId);
             }
         });
         generateQRCodeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getQRCode(id);
+                getQRCode(seminarId);
             }
         });
     }
