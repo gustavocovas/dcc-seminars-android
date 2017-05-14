@@ -1,4 +1,4 @@
-# dcc-seminars-ionic
+# dcc-seminars-android
 
 Aplicativo para confirmar presença dos alunos da pós-graduação em Ciência da Computação em Seminários.
 
