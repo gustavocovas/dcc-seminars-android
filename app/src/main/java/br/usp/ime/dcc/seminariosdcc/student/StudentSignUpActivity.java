@@ -24,6 +24,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import br.usp.ime.dcc.seminariosdcc.LoginActivity;
 import br.usp.ime.dcc.seminariosdcc.R;
 import br.usp.ime.dcc.seminariosdcc.shared.SeminarsWebService;
 
@@ -118,7 +119,7 @@ public class StudentSignUpActivity extends AppCompatActivity {
                         }
 
                         if (wasSuccessful) {
-                            Intent login = new Intent(StudentSignUpActivity.this, StudentSignInActivity.class);
+                            Intent login = new Intent(StudentSignUpActivity.this, LoginActivity.class);
                             startActivity(login);
                         } else {
                             notifySignUpFailure();
