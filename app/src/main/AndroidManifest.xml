@@ -41,7 +41,6 @@
         <activity android:name=".professor.ProfessorSignUpActivity" />
         <activity android:name=".professor.ProfessorEditProfileActivity" />
         <activity android:name=".professor.ProfessorAddAttendenceActivity" />
-        <activity android:name=".student.StudentQRCodeActivity" />
         <activity android:name=".professor.ProfessorQRCodeActivity"></activity>
     </application>
 
