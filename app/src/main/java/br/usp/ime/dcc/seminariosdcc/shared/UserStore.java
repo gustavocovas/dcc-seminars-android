@@ -80,7 +80,7 @@ public class UserStore {
         }
         fis.close();
 
-        return sb.toString();
+        return sb.toString().trim();
     }
 
     private void setNusp(String nusp) throws IOException {

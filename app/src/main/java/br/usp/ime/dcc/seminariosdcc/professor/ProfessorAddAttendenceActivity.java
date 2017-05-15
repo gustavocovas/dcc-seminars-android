@@ -34,7 +34,6 @@ public class ProfessorAddAttendenceActivity extends AppCompatActivity {
     private TextInputEditText nuspInput;
 
     private boolean submitting = false;
-
     private String seminarId;
 
     @Override

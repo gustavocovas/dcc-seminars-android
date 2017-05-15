@@ -13,3 +13,7 @@ Métodos de confirmação propostos:
   O aluno que não tiver acesso ao aplicativo, por qualquer motivo, entrega seu cartão USP para o professor.O professor usa o seu próprio aplicativo para registrar a presença do aluno no seminário pelo NUSP do aluno.Este método não requer confirmação extra.
   
 Desta forma, o método preferível de verificação deve ser o QRCode para minimizar o trabalho do professor, mas qualquer que seja a situação do aluno, sua presença será registrada no momento do seminário, evitando confirmação exterior de terceiros como é feito hoje.
+
+## Fazendo o build
+
+Importe esse diretório como projeto no Android Studio, use a ferramenta para fazer o build e rodar os testes.
