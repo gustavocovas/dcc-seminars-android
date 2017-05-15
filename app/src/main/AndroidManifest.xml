@@ -36,8 +36,6 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".professor.ProfessorSeminarDetailActivity" />
         <activity android:name=".professor.ProfessorAddSeminarActivity" />
-        <activity android:name=".professor.ProfessorEditSeminarActivity" />
-        <activity android:name=".professor.ProfessorRegisterListActivity" />
         <activity android:name=".professor.ProfessorSignUpActivity" />
         <activity android:name=".professor.ProfessorEditProfileActivity" />
         <activity android:name=".professor.ProfessorAddAttendenceActivity" />

@@ -142,7 +142,7 @@ public class ProfessorEditProfileActivity extends AppCompatActivity {
     }
 
     private void notifyUpdateFailure() {
-        Snackbar.make(updateButton, "Não foi possível alterar o cadastro", Snackbar.LENGTH_LONG)
+        Snackbar.make(updateButton, "Não foi possível atualizar o cadastro", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
     }
 

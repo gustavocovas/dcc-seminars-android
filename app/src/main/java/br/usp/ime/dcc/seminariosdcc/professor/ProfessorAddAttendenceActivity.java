@@ -141,7 +141,7 @@ public class ProfessorAddAttendenceActivity extends AppCompatActivity {
     }
 
     private void notifyAddFailure() {
-        Snackbar.make(addButton, "Não foi possível adicionar o seminário", Snackbar.LENGTH_LONG)
+        Snackbar.make(addButton, "Não foi possível adicionar a presença", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
     }
 

@@ -95,7 +95,7 @@ public class StudentSignUpActivity extends AppCompatActivity {
     }
 
     private void notifySignUpFailure() {
-        Snackbar.make(signUpButton, "Não foi possível fazer o cadastro", Snackbar.LENGTH_LONG)
+        Snackbar.make(signUpButton, "Não foi possível efetuar o cadastro", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
     }
 

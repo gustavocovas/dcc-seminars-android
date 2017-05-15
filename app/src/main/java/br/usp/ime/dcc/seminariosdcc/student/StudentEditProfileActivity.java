@@ -148,7 +148,7 @@ public class StudentEditProfileActivity extends AppCompatActivity {
     }
 
     private void notifySubmitFailure() {
-        Snackbar.make(submitButton, "Não foi possível alterar seu cadastro", Snackbar.LENGTH_LONG)
+        Snackbar.make(submitButton, "Não foi possível atualizar seu cadastro", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
     }
 
